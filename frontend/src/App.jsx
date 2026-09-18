@@ -2,7 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Home from './components/Home'
 import AuthProvider from './context/AuthContext'
-import Fake from './components/fake'
+import Dashboard from './components/Dashboard'
+import ProtectedRoute from './components/ProtectedRoute'
+
+
 
 export default function App() {
   return (
@@ -11,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path='/success' element={<Fake />} />
+        <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
   
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 
-
 export default function Home() {
+
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#08090a] text-white">
 
@@ -74,7 +75,7 @@ export default function Home() {
           Sign in
         </Link>
 
-
+       
       </nav>
 
       {/* Hero */}

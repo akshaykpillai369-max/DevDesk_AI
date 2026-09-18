@@ -3,11 +3,15 @@ from rest_framework.views import APIView
 from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.exceptions import TokenError
 import os
 import secrets
 import requests
 from urllib.parse import urlencode
 from .models import User
+
 
 # Create your views here.
 class GithubLoginView(APIView):
@@ -73,20 +77,28 @@ class GithubCallbackView(APIView):
             github_id = str(github_user['id'])
             github_user_name = github_user['login']
             github_user_mail = github_user['email']
+            github_avatar = github_user['avatar_url']
 
             user, _ = User.objects.get_or_create(github_id = github_id, 
                                                  defaults=
                                                  {
                                                     'username' : github_user_name,
-                                                    'email' : github_user_mail
+                                                    'email' : github_user_mail,
+                                                    'avatar_url': github_avatar
                                                 })
+
+            user.username = github_user_name
+            user.email = github_user_mail
+            user.avatar_url = github_avatar
+            user.save()
+            
 
             refresh = RefreshToken.for_user(user)
             access = str(refresh.access_token)
             refresh = str(refresh)
 
             front_end = os.getenv('FRONTEND_URL')
-            response = redirect(f'{front_end}/#access={access}')
+            response = redirect(f'{front_end}/dashboard#access={access}')
             response.set_cookie('refresh_token', refresh, httponly=True, secure=False, samesite='Lax')
             return response
 
@@ -98,3 +110,54 @@ class GithubCallbackView(APIView):
 
         else:
             return Response({"error": "Invalid OAuth state"}, status=400)
+
+class CurrentUserView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        user = request.user
+
+        return Response({
+
+            'username': user.username,
+            'email':user.email,
+            'avatar_url': user.avatar_url
+        })
+
+
+class CookieTokenRefreshView(APIView):
+
+    def post(self, request):
+
+        raw_token = request.COOKIES.get('refresh_token')
+
+        if raw_token:
+
+            try:
+
+                token = RefreshToken(raw_token)
+
+                new_access_token = str(token.access_token)
+
+                return Response({
+                    'access' : new_access_token
+                })
+            
+            except TokenError:
+
+                return Response(
+                    {'detail': 'Invalid or expired refresh token.'},
+                    status=401
+                )
+
+
+        return Response(
+            {'detail': 'Refresh token not found.'},
+            status=401
+        )
+
+
+
+
