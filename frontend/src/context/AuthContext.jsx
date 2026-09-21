@@ -18,6 +18,7 @@ useEffect(() => {
     const hash = window.location.hash
     const params = new URLSearchParams(hash.substring(1))
     const accessToken = params.get("access")
+    
 
     if (access) {
         token.setToken(access)
@@ -37,6 +38,7 @@ useEffect(() => {
     else if (accessToken) {
         setAccess(accessToken)
         token.setToken(accessToken)
+        console.log("Access token:", accessToken)
 
         window.history.replaceState(null, '', '/dashboard')
     }
@@ -46,6 +48,7 @@ useEffect(() => {
             .then((res) => {
                 setAccess(res.data.access)
                 token.setToken(res.data.access)
+                console.log("Access token:", res.data.access)
             })
             .catch((err) => {
                 setError('Error fetching details')
