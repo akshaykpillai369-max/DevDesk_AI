@@ -63,3 +63,41 @@ def generate_code_explanation(code):
     '''
 
     return generate_ai_response(prompt)
+
+def generate_code_debug(code):
+
+    prompt = f'''Analyze the following code for bugs and errors.
+
+    Cover:
+
+    1. What the code is trying to do
+    2. Any bugs or errors you find
+    3. Why each bug or error occurs
+    4. How to fix each issue
+    5. Any other potential problems
+
+    Code:
+
+    {code}
+    '''
+
+    return generate_ai_response(prompt)
+
+def generate_code_improvement(code):
+
+    prompt = f'''Improve the following code while preserving its intended functionality.
+
+    Cover:
+
+    1. What could be improved
+    2. Why those improvements are useful
+    3. Readability and maintainability improvements
+    4. Performance improvements where relevant
+    5. Provide the improved version of the code
+
+    Code:
+
+    {code}
+    '''
+
+    return generate_ai_response(prompt)

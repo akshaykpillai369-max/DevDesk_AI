@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .services import generate_ai_response, generate_code_explanation
+from .services import generate_ai_response, generate_code_explanation, generate_code_debug, generate_code_improvement
 from rest_framework.response import Response
 
 # Create your views here.
@@ -33,6 +33,39 @@ class CodeExplainerView(APIView):
         if code:
 
             response = generate_code_explanation(code)
+
+            return Response({'response' : response})
+
+        return Response({'error' : 'No code found'})
+
+
+class CodeDebuggerView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        code = request.data.get('code')
+
+        if code:
+
+            response = generate_code_debug(code)
+
+            return Response({'response' : response})
+
+        return Response({'error' : 'No code found'})
+
+class CodeImproverView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        code = request.data.get('code')
+
+        if code:
+
+            response = generate_code_improvement(code)
 
             return Response({'response' : response})
 

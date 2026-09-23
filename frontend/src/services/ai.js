@@ -35,4 +35,39 @@ async function explainCode(code) {
         
 }
 
-export default {sendMessage, explainCode}
+async function debugCode(code) {
+
+    try{
+        
+        const response = await api.post('/ai/debugger/', { code })
+        return response.data.response
+
+        }
+
+        catch(err){
+
+            return { error: 'Error debugging the code' }
+        }
+
+        
+}
+
+async function improveCode(code) {
+
+    try{
+        
+        const response = await api.post('/ai/improver/', { code })
+        return response.data.response
+
+        }
+
+        catch(err){
+
+            return { error: 'Error enhancing the code' }
+        }
+
+        
+}
+
+
+export default {sendMessage, explainCode, debugCode, improveCode}

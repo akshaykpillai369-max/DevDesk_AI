@@ -88,7 +88,7 @@ const navigation = [
 ]
 
 
-export default function CodeExplainer() {
+export default function CodeImprover() {
 
     const { user } = useAuth()
 
@@ -97,7 +97,7 @@ export default function CodeExplainer() {
     const [loading, setLoading] = useState(false)
 
 
-    const handleExplain = async () => {
+    const handleImprove = async () => {
 
         if (!code.trim() || loading) {
             return
@@ -108,7 +108,7 @@ export default function CodeExplainer() {
 
         try {
 
-            const result = await ai.explainCode(code)
+            const result = await ai.improveCode(code)
 
             if (typeof result === "object" && result.error) {
                 setResponse(result.error)
@@ -118,7 +118,7 @@ export default function CodeExplainer() {
 
         } catch {
 
-            setResponse("Something went wrong while explaining the code.")
+            setResponse("Something went wrong while improving the code.")
 
         } finally {
 
@@ -230,20 +230,28 @@ export default function CodeExplainer() {
 
                                 <span className="flex size-7 items-center justify-center rounded-lg bg-white/10">
 
-                                    <span className="font-mono text-[10px] text-white/70">
-                                        {"</>"}
-                                    </span>
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.8"
+                                    >
+                                        <path d="M5 19L19 5" />
+                                        <path d="M8 5h11v11" />
+                                    </svg>
 
                                 </span>
 
                                 <div>
 
                                     <p className="text-xs font-medium text-white/65">
-                                        Code Explainer
+                                        Code Improver
                                     </p>
 
                                     <p className="mt-0.5 text-[10px] text-white/25">
-                                        Code analysis
+                                        Code optimization
                                     </p>
 
                                 </div>
@@ -323,17 +331,17 @@ export default function CodeExplainer() {
                                 <div className="flex items-center gap-2">
 
                                     <h1 className="text-sm font-semibold">
-                                        Code Explainer
+                                        Code Improver
                                     </h1>
 
                                     <span className="hidden rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] text-white/30 sm:inline">
-                                        CODE ANALYSIS
+                                        CODE OPTIMIZATION
                                     </span>
 
                                 </div>
 
                                 <p className="text-[11px] text-white/30">
-                                    Understand your code with AI
+                                    Improve readability, structure, and maintainability
                                 </p>
 
                             </div>
@@ -358,9 +366,9 @@ export default function CodeExplainer() {
                                 <span className="text-[11px] text-white/50">
 
                                     {loading
-                                        ? "Explaining"
+                                        ? "Improving"
                                         : response
-                                            ? "Explanation ready"
+                                            ? "Improvement ready"
                                             : "Ready"}
 
                                 </span>
@@ -407,20 +415,21 @@ export default function CodeExplainer() {
                                     <span className="size-1.5 rounded-full bg-emerald-400" />
 
                                     <span className="text-[10px] font-medium text-white/40">
-                                        AI CODE ANALYSIS
+                                        AI CODE OPTIMIZATION
                                     </span>
 
                                 </div>
 
 
                                 <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                                    Explain your code
+                                    Improve your code
                                 </h2>
 
 
                                 <p className="mt-2 max-w-2xl text-sm leading-6 text-white/35">
-                                    Paste your code below and DevDesk AI will break it
-                                    down into clear explanations, concepts, and potential issues.
+                                    Paste your code below and DevDesk AI will identify
+                                    improvements for readability, structure, performance,
+                                    and maintainability.
                                 </p>
 
                             </div>
@@ -497,7 +506,7 @@ export default function CodeExplainer() {
                                         <textarea
                                             value={code}
                                             onChange={(event) => setCode(event.target.value)}
-                                            placeholder={"Paste your code here...\n\nExample:\ndef greet(name):\n    return f\"Hello {name}\""}
+                                            placeholder={"Paste your code here...\n\nExample:\ndef get_user(users):\n    return [user for user in users if user.active]"}
                                             spellCheck={false}
                                             className="min-h-96 min-w-0 flex-1 resize-none bg-transparent p-5 font-mono text-sm leading-7 text-white/80 outline-none placeholder:text-white/15 sm:min-h-0"
                                         />
@@ -520,7 +529,7 @@ export default function CodeExplainer() {
                                         <button
                                             type="button"
                                             disabled={!code.trim() || loading}
-                                            onClick={handleExplain}
+                                            onClick={handleImprove}
                                             className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-30"
                                         >
 
@@ -549,14 +558,14 @@ export default function CodeExplainer() {
                                                         />
                                                     </svg>
 
-                                                    Explaining...
+                                                    Improving...
 
                                                 </>
 
                                             ) : (
 
                                                 <>
-                                                    Explain Code
+                                                    Improve Code
                                                     <span>→</span>
                                                 </>
 
@@ -569,11 +578,11 @@ export default function CodeExplainer() {
                                 </div>
 
 
-                                {/* Explanation */}
+                                {/* Improved code */}
                                 <div className="flex min-h-128 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/2.5">
 
 
-                                    {/* Explanation header */}
+                                    {/* Result header */}
                                     <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3">
 
                                         <div className="flex items-center gap-3">
@@ -585,11 +594,11 @@ export default function CodeExplainer() {
                                             <div>
 
                                                 <p className="text-sm font-medium text-white/70">
-                                                    AI Explanation
+                                                    Improved Code
                                                 </p>
 
                                                 <p className="text-[10px] text-white/25">
-                                                    Code breakdown and concepts
+                                                    Suggestions and optimized implementation
                                                 </p>
 
                                             </div>
@@ -610,7 +619,7 @@ export default function CodeExplainer() {
                                     </div>
 
 
-                                    {/* Explanation body */}
+                                    {/* Result body */}
                                     <div className="min-h-0 flex-1 overflow-y-auto p-5 sm:p-6">
 
                                         {loading ? (
@@ -645,13 +654,13 @@ export default function CodeExplainer() {
 
 
                                                 <h3 className="text-sm font-medium text-white/65">
-                                                    Understanding your code
+                                                    Improving your code
                                                 </h3>
 
 
                                                 <p className="mt-2 max-w-xs text-xs leading-5 text-white/25">
-                                                    DevDesk AI is breaking down the logic,
-                                                    concepts, and potential issues.
+                                                    DevDesk AI is reviewing structure,
+                                                    readability, maintainability, and performance.
                                                 </p>
 
                                             </div>
@@ -665,7 +674,7 @@ export default function CodeExplainer() {
                                                     <span className="size-1.5 rounded-full bg-emerald-400" />
 
                                                     <span className="text-[11px] text-emerald-400/70">
-                                                        Explanation complete
+                                                        Improvement complete
                                                     </span>
 
                                                 </div>
@@ -685,24 +694,32 @@ export default function CodeExplainer() {
 
                                                     <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
 
-                                                        <span className="font-mono text-sm text-white/50">
-                                                            {"</>"}
-                                                        </span>
+                                                        <svg
+                                                            width="20"
+                                                            height="20"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.7"
+                                                        >
+                                                            <path d="M5 19L19 5" />
+                                                            <path d="M8 5h11v11" />
+                                                        </svg>
 
                                                     </div>
 
 
                                                     <h3 className="text-sm font-medium text-white/65">
-                                                        Your explanation will appear here
+                                                        Your improved code will appear here
                                                     </h3>
 
 
                                                     <p className="mt-2 text-xs leading-5 text-white/30">
                                                         Paste your code on the left and click{" "}
                                                         <span className="text-white/50">
-                                                            Explain Code
+                                                            Improve Code
                                                         </span>{" "}
-                                                        to get a detailed breakdown.
+                                                        to get suggestions and an improved version.
                                                     </p>
 
                                                 </div>
@@ -724,11 +741,11 @@ export default function CodeExplainer() {
                                 <div className="rounded-xl border border-white/10 bg-white/2.5 px-4 py-3">
 
                                     <p className="text-[11px] font-medium text-white/50">
-                                        Start with unfamiliar code
+                                        Preserve the goal
                                     </p>
 
                                     <p className="mt-1 text-[10px] leading-5 text-white/25">
-                                        Use this tool when you need to understand code you didn't write.
+                                        The tool aims to improve code without changing its intended behavior.
                                     </p>
 
                                 </div>
@@ -737,11 +754,11 @@ export default function CodeExplainer() {
                                 <div className="rounded-xl border border-white/10 bg-white/2.5 px-4 py-3">
 
                                     <p className="text-[11px] font-medium text-white/50">
-                                        Include context
+                                        Include surrounding code
                                     </p>
 
                                     <p className="mt-1 text-[10px] leading-5 text-white/25">
-                                        More relevant code gives the AI better context for its explanation.
+                                        Related functions and data structures help provide better context.
                                     </p>
 
                                 </div>
@@ -750,11 +767,11 @@ export default function CodeExplainer() {
                                 <div className="rounded-xl border border-white/10 bg-white/2.5 px-4 py-3">
 
                                     <p className="text-[11px] font-medium text-white/50">
-                                        Ask, then verify
+                                        Review every change
                                     </p>
 
                                     <p className="mt-1 text-[10px] leading-5 text-white/25">
-                                        Use the explanation to learn, then verify important details yourself.
+                                        Test improvements before using them in production code.
                                     </p>
 
                                 </div>
