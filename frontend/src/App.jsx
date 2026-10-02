@@ -8,7 +8,9 @@ import Chat from './components/Chat'
 import CodeExplainer from './components/Explainer'
 import CodeDebugger from './components/Debugger'
 import CodeImprover from './components/Improver'
-
+import CreateProject from './components/CreateProject'
+import ProjectsPage from './components/Projects'
+import ProjectDetail from './components/ProjectDetail'
 
 
 export default function App() {
@@ -23,6 +25,9 @@ export default function App() {
         <Route path='/explainer' element={ <ProtectedRoute> <CodeExplainer /> </ProtectedRoute>} />
         <Route path='/debugger' element={ <ProtectedRoute> <CodeDebugger /> </ProtectedRoute>} />
         <Route path='/improver' element={ <ProtectedRoute> <CodeImprover /> </ProtectedRoute>} />
+        <Route path="/projects" element={<ProtectedRoute> <ProjectsPage /> </ProtectedRoute> } />
+        <Route path="/projects/create-project" element={<ProtectedRoute> <CreateProject /> </ProtectedRoute> } />
+        <Route path="/projects/view-project/:slug" element={<ProtectedRoute> <ProjectDetail /> </ProtectedRoute> } />
       </Routes>
     </BrowserRouter>
     </AuthProvider>

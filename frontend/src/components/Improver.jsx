@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 
 import ai from "../services/ai"
 import { useAuth } from "../context/AuthContext"
-
+import AIResult from "../components/AIResult"
 
 const navigation = [
     {
@@ -681,7 +681,7 @@ export default function CodeImprover() {
 
 
                                                 <div className="whitespace-pre-wrap text-left text-sm leading-7 text-white/70">
-                                                    {response}
+                                                    <AIResult content={response} />
                                                 </div>
 
                                             </div>
